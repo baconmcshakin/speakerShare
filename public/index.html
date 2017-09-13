@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html>
 <!--
-  Created by Kyle Permuy, 9/8/2017.
-  Created for PennApps XVI.
-  Copyright 2017 Ethan, Steven, and Kyle.
+  Created by Kyle Permuy, 9/8/2017
 -->
 <head>
-  <title>Multiplayer Server Unit Tests</title>
+  <title>Server Unit Tests</title>
 <style>
 
 </style>
@@ -17,62 +15,31 @@
 
   <hr />
 
-  <p id="roomName">Not connected to a room.</p>
-  <p id="clientList">Clients Connected: ...</p>
-  <input type="text" id="setRoomName" name="setRoomName" placeholder="HelloWorld">
-  <button id="joinRoom">Join Room</button>
-  <button id="viewRoom">View Current Room Members</button>
+  <p id="mixName">Not connected to a mix.</p>
+  <p id="userList">Users Connected: ...</p>
+  <input type="text" id="setMixName" name="setMixName" placeholder="HelloWorld">
+  <input type="text" id="setMixPass" name="setMixPass" placeholder="password">
+  <button id="joinMix">Join Mix</button>
+  <button id="createMix">Create Mix</button>
+  <button id="viewMixUsers">View Current Mix Users</button>
 
   <hr />
-
-  <p>Select Abilities and Towers</p>
-  <input type="checkbox" id="ability-0">
-  <input type="checkbox" id="ability-1">
-  <input type="checkbox" id="ability-2">
-  <input type="checkbox" id="ability-3">
-  <input type="checkbox" id="ability-4">
-  <input type="checkbox" id="ability-5">
-  <br />
-  <input type="checkbox" id="tower-0">
-  <input type="checkbox" id="tower-1">
-  <input type="checkbox" id="tower-2">
-  <input type="checkbox" id="tower-3">
-  <input type="checkbox" id="tower-4">
-  <input type="checkbox" id="tower-5">
-  <br />
-  <button id="setant">Set A&amp;T Settings</button>
-
-  <hr />
-
-  <button id=""></button>
-  <hr />
-
-  <input type="text" id="coordinate-x" name="coordinate-x" placeholder="X">
-  <input type="text" id="coordinate-y" name="coordinate-y" placeholder="Y">
-  <button id="setCoords">Set X/Y Coords</button>
-
-  <hr />
-
-
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
   <script>
     /**
      * Connect to the instance of Socket.IO running on my computer.
-     * Must specify the custom path, "/play" or it won't work.
+     * Must specify the custom path, "/mix" or it won't work.
      */
-    const rt = io('http://vnx.local:3000');
-
-    /*
-    , {
-      path: '/play'
-    }
-     */
+    const rt = io('http://vnx.local:3000', {
+      path: '/mix'
+    });
 
     /**
      * Initialize the local variable for the room/match name.
      */
-    let currentRoom = "";
+    let currentMix = "";
+    let mixPass = "";
 
     // This is for debugging
     let serverMsg = document.getElementById("serverMsg");
@@ -87,50 +54,61 @@
     });
 
     /**
-     * joinRoom button (click event)
-     * finds room name entered in input field,
-     * emits an event called "join room" to the server with the text from the
+     * joinMix button (click event)
+     * finds mix name entered in input field,
+     * emits an event called "join mix" to the server with the text from the
      * input field, and updating the interface to show that you have
-     * connected to the new room.
+     * connected to the new mix.
      */
-    document.getElementById("joinRoom").onclick = () => {
-      currentRoom = document.getElementById("setRoomName").value || "HelloWorld";
-      rt.emit("join room", currentRoom);
-      document.getElementById("roomName").innerText = `Current Room: ${ currentRoom }`;
-    }
+     document.getElementById("joinMix").onclick = () => {
+       currentMix = document.getElementById("setMixName").value || "HelloWorld";
+       mixPass = document.getElementById("setMixPass").value;
+       let req = {
+         "name": currentMix,
+         "password": mixPass
+       };
+
+       rt.emit("join mix", req, (res) => {
+         if (res.code === 200) {
+           document.getElementById("mixName").innerText = `Current Mix: ${ currentMix }`;
+         } else {
+           document.getElementById("mixName").innerText = `Failed to join ${ currentMix }`;
+         }
+       });
+     }
+
+     /**
+      * createMix (click event)
+      * @type {[type]}
+      */
+     document.getElementById("createMix").onclick = () => {
+       currentMix = document.getElementById("setMixName").value || "HelloWorld";
+       mixPass = document.getElementById("setMixPass").value;
+       let req = {
+         "newMix": true,
+         "name": currentMix,
+         "password": mixPass
+       };
+
+       rt.emit("join mix", req, (res) => {
+         if (res.code === 200) {
+           document.getElementById("mixName").innerText = `Current Mix: ${ currentMix }`;
+         } else {
+           document.getElementById("mixName").innerText = `Failed to join ${ currentMix }`;
+         }
+       });
+     }
 
     /**
-     * viewRoom button (click event)
+     * viewMixUsers button (click event)
      * on click, an event is emitted to the
-     * server called "view room" with the room name. We expect the server to
-     * respond with an array of client IDs who are connected to the room.
+     * server called "view mix users" with the mixtape name. We expect the
+     * server to respond with an array of users who are connected to the mix.
      */
-    document.getElementById("viewRoom").onclick = () => {
-      rt.emit("view room", currentRoom, (clients) => {
-        document.getElementById("clientList").innerText = `Clients Connected: ${ clients }`;
+    document.getElementById("viewMixUsers").onclick = () => {
+      rt.emit("view mix users", currentMix, (res) => {
+        document.getElementById("userList").innerText = `Users Connected: ${ res }`;
       });
-    }
-
-    /**
-     * Set Abilities and Towers button (setANT)
-     * @type {[type]}
-     */
-    document.getElementById("setCoords").onclick = () => {
-      console.log("Hi");
-      let x = document.getElementById("coordinate-x").value;
-      let y = document.getElementById("coordinate-y").value;
-      console.log(x,y);
-    }
-
-    /**
-     * [onclick description]
-     * @type {[type]}
-     */
-    document.getElementById("setCoords").onclick = () => {
-      console.log("Hi");
-      let x = document.getElementById("coordinate-x").value;
-      let y = document.getElementById("coordinate-y").value;
-      console.log(x,y);
     }
 
   </script>
