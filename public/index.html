@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<!--
+  Created by Kyle Permuy, 9/8/2017.
+  Created for PennApps XVI.
+  Copyright 2017 Ethan, Steven, and Kyle.
+-->
+<head>
+  <title>Multiplayer Server Unit Tests</title>
+<style>
+
+</style>
+</head>
+
+<body>
+  <p id="serverMsg">Connecting to server...</p>
+
+  <hr />
+
+  <p id="roomName">Not connected to a room.</p>
+  <p id="clientList">Clients Connected: ...</p>
+  <input type="text" id="setRoomName" name="setRoomName" placeholder="HelloWorld">
+  <button id="joinRoom">Join Room</button>
+  <button id="viewRoom">View Current Room Members</button>
+
+  <hr />
+
+  <p>Select Abilities and Towers</p>
+  <input type="checkbox" id="ability-0">
+  <input type="checkbox" id="ability-1">
+  <input type="checkbox" id="ability-2">
+  <input type="checkbox" id="ability-3">
+  <input type="checkbox" id="ability-4">
+  <input type="checkbox" id="ability-5">
+  <br />
+  <input type="checkbox" id="tower-0">
+  <input type="checkbox" id="tower-1">
+  <input type="checkbox" id="tower-2">
+  <input type="checkbox" id="tower-3">
+  <input type="checkbox" id="tower-4">
+  <input type="checkbox" id="tower-5">
+  <br />
+  <button id="setant">Set A&amp;T Settings</button>
+
+  <hr />
+
+  <button id=""></button>
+  <hr />
+
+  <input type="text" id="coordinate-x" name="coordinate-x" placeholder="X">
+  <input type="text" id="coordinate-y" name="coordinate-y" placeholder="Y">
+  <button id="setCoords">Set X/Y Coords</button>
+
+  <hr />
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+  <script>
+    /**
+     * Connect to the instance of Socket.IO running on my computer.
+     * Must specify the custom path, "/play" or it won't work.
+     */
+    const rt = io('http://vnx.local:3000');
+
+    /*
+    , {
+      path: '/play'
+    }
+     */
+
+    /**
+     * Initialize the local variable for the room/match name.
+     */
+    let currentRoom = "";
+
+    // This is for debugging
+    let serverMsg = document.getElementById("serverMsg");
+
+    /**
+     * Event Listener for "on successful connection"
+     * We need to make sure we have connected to the server successfully
+     * before attempting to listen for events.
+     */
+    rt.on('connect', (socket) => {
+      serverMsg.innerText = `Connected. Your User ID is ${ rt.id }.`;
+    });
+
+    /**
+     * joinRoom button (click event)
+     * finds room name entered in input field,
+     * emits an event called "join room" to the server with the text from the
+     * input field, and updating the interface to show that you have
+     * connected to the new room.
+     */
+    document.getElementById("joinRoom").onclick = () => {
+      currentRoom = document.getElementById("setRoomName").value || "HelloWorld";
+      rt.emit("join room", currentRoom);
+      document.getElementById("roomName").innerText = `Current Room: ${ currentRoom }`;
+    }
+
+    /**
+     * viewRoom button (click event)
+     * on click, an event is emitted to the
+     * server called "view room" with the room name. We expect the server to
+     * respond with an array of client IDs who are connected to the room.
+     */
+    document.getElementById("viewRoom").onclick = () => {
+      rt.emit("view room", currentRoom, (clients) => {
+        document.getElementById("clientList").innerText = `Clients Connected: ${ clients }`;
+      });
+    }
+
+    /**
+     * Set Abilities and Towers button (setANT)
+     * @type {[type]}
+     */
+    document.getElementById("setCoords").onclick = () => {
+      console.log("Hi");
+      let x = document.getElementById("coordinate-x").value;
+      let y = document.getElementById("coordinate-y").value;
+      console.log(x,y);
+    }
+
+    /**
+     * [onclick description]
+     * @type {[type]}
+     */
+    document.getElementById("setCoords").onclick = () => {
+      console.log("Hi");
+      let x = document.getElementById("coordinate-x").value;
+      let y = document.getElementById("coordinate-y").value;
+      console.log(x,y);
+    }
+
+  </script>
+</body>
+</html>
