@@ -2,7 +2,6 @@ const port = process.env.port || 3000;
 
 const path = require('path');
 const express = require('express');
-const bluebird = require('bluebird');
 const app = express();
 const http = require('http').Server(app);
 const rt = require('socket.io')(http, {

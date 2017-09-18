@@ -6,24 +6,118 @@
 <head>
   <title>Server Unit Tests</title>
 <style>
-
+  html, body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    display: block;
+  }
+  small {
+    margin-top: -10px;
+    display: block;
+    padding-bottom: 15px;
+  }
+  div {
+    border-top: 1px solid black;
+    padding: 2px 0;
+    margin-bottom: 10px;
+  }
+  .complete, .complete:visited {
+    color: #00ee00;
+  }
+  .incomplete, .incomplete:visited {
+    color: #ee0000;
+  }
+  #sidebar {
+    width: 18%;
+    display: inline-block;
+    position: fixed;
+    height: 100%;
+    vertical-align: top;
+    border: 1px solid black;
+  }
+  #sidebar a {
+    display: block;
+    margin: 25px 10px;
+  }
+  #content {
+    width: 80%;
+    display: inline-block;
+    margin-left: 20%;
+    height: 100%;
+    vertical-align: top;
+  }
 </style>
 </head>
 
 <body>
-  <p id="serverMsg">Connecting to server...</p>
+  <div id="sidebar">
+    <a class="incomplete" href="#userSection">User Settings</a>
+    <a class="complete" href="#mixSection">Mix Settings</a>
+    <a class="incomplete" href="#searchSection">Search Songs</a>
+    <a class="incomplete" href="#tapeSection">Current Mixtape</a>
+    <a class="incomplete" href="#savedSection">Saved Songs</a>
+  </div>
+  <div id="content">
+    <h1>SpeakerShare Server Unit Tests</h1>
+    <div id="userSection">
+      <h3 >User Settings</h3>
+      <small>View your Client ID and attach your connection to a Facebook account.</small>
 
-  <hr />
+      <p id="serverMsg">Connecting to server...</p>
+      <button id="connectFB">Connect via Facebook</button>
+    </div>
 
-  <p id="mixName">Not connected to a mix.</p>
-  <p id="userList">Users Connected: ...</p>
-  <input type="text" id="setMixName" name="setMixName" placeholder="HelloWorld">
-  <input type="text" id="setMixPass" name="setMixPass" placeholder="password">
-  <button id="joinMix">Join Mix</button>
-  <button id="createMix">Create Mix</button>
-  <button id="viewMixUsers">View Current Mix Users</button>
+    <div id="mixSection">
+      <h3 >Mix Settings</h3>
+      <small>Connect to a Mix or join your own.</small>
 
-  <hr />
+      <p id="mixName">Not connected to a mix.</p>
+      <p id="userList">Users Connected: ...</p>
+      <input type="text" id="setMixName" name="setMixName" placeholder="HelloWorld">
+      <input type="text" id="setMixPass" name="setMixPass" placeholder="password">
+      <button id="joinMix">Join Mix</button>
+      <button id="createMix">Create Mix</button>
+      <button id="viewMixUsers">View Current Mix Users</button>
+    </div>
+
+    <div id="searchSection">
+      <h3 >Search Songs</h3>
+      <small>Enter a search term into the input box, select the service you want to search (for now), and the results should appear in a paginated list.</small>
+
+      <input type="text" id="searchBox" name="searchBox" placeholder="Search">
+      <button id="spotify">Search Spotify</button>
+      <button id="soundcloud">Search Soundcloud</button>
+
+      <ul id="searchResults">
+        <li>(results here; limit 10 results per page)</li>
+      </ul>
+
+      <button id="">Back</button>
+      <button id="">Next</button>
+    </div>
+
+    <div id="tapeSection">
+      <h3 >Current Mixtape</h3>
+      <small>Listed here are all the songs either you or others have added to the mixtape you are currently in.</small>
+
+      <input type="text" id="" name="" placeholder="Spotify:URI or Soundcloud">
+      <button id="">Add Song to Mixtape</button>
+
+      <ul id="mixtape">
+        <li>(list songs here)</li>
+      </ul>
+    </div>
+
+    <div id="savedSection">
+      <h3 >Saved Songs</h3>
+      <small>If you like a song, you can choose to save it for later use.</small>
+
+      <ul>
+        <li>(list songs here)</li>
+      </ul>
+    </div>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
   <script>
@@ -85,13 +179,13 @@
        currentMix = document.getElementById("setMixName").value || "HelloWorld";
        mixPass = document.getElementById("setMixPass").value;
        let req = {
-         "newMix": true,
          "name": currentMix,
          "password": mixPass
        };
 
-       rt.emit("join mix", req, (res) => {
-         if (res.code === 200) {
+       rt.emit("create mix", req, (res) => {
+         console.log(res);
+         if (res === true) {
            document.getElementById("mixName").innerText = `Current Mix: ${ currentMix }`;
          } else {
            document.getElementById("mixName").innerText = `Failed to join ${ currentMix }`;
