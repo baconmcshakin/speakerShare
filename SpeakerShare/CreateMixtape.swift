@@ -1,45 +1,40 @@
 //
-//  ViewController.swift
+//  CreateMixtape.swift
 //  SpeakerShare
 //
-//  Created by Ethan Horing on 9/12/17.
+//  Created by Ethan Horing on 9/13/17.
 //  Copyright © 2017 Ethan and Kyle. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import SocketIO
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate{
+
+class CreateMixtape: UIViewController, UITextFieldDelegate{
     
-    @IBOutlet weak var mixgroupLabel: UITextField!
-    var socket : SocketIOClient?
+    @IBOutlet weak var mixNameField: UITextField!
+    @IBOutlet weak var passwordTextfield: UITextField!
+    @IBOutlet weak var descriptionTextField: UITextField!
     
-    var channelName: String = ""
     
-    
-    @IBAction func joinChannelButton(_ sender: UIButton) {
+    @IBAction func createMixtapeButton(_ sender: UIButton) {
+        
+        let mixName = mixNameField.text
+        let password = passwordTextfield.text
+        let description = descriptionTextField.text
         
         
-        channelName = mixgroupLabel.text!
-        if (!channelName.isEmpty) {
-            performSegue(withIdentifier: "segueToJoin", sender: nil)
-        }
+        let mix = Mixtape(name: mixName!, password: password!, description: description)
         
+        print(mix.name)
+        print(mix.password!)
+        print(mix.description!)
         
-        //let channelName = mixgroupName.text
+        SocketIOManager.sharedInstance.createMix(mix: mix)
         
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "segueToJoin" {
-            
-            let secondViewController = segue.destination as! JoinMixtapeAuth
-            secondViewController.channelName = channelName
-            
-            
-        }
-        
-    }
     
     
     
@@ -51,16 +46,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         view.addGestureRecognizer(tap)
         
         
-        self.mixgroupLabel.delegate = self
-        
-        
+        self.mixNameField.delegate = self
+        self.passwordTextfield.delegate = self
+        self.descriptionTextField.delegate = self
+
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
-        
+        passwordTextfield.keyboardType = UIKeyboardType.numberPad
+
         
     }
-    
     
     func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
@@ -72,28 +68,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return false
     }
     
-    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        return cell
-    }
-    
-    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    
     
     func keyboardWillShow(notification: NSNotification) {
-        print(notification)
-        if (mixgroupLabel.isFirstResponder) {
+        if (descriptionTextField.isFirstResponder) {
             
             if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
                 if self.view.frame.origin.y == 0{
@@ -101,10 +78,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 }
             }
         }
+        
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        if (mixgroupLabel.isFirstResponder) {
+        if (descriptionTextField.isFirstResponder) {
             
             if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
                 if self.view.frame.origin.y != 0{
@@ -113,7 +91,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             }
         }
     }
+
     
+    
+    
+    
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
     
 }
-
