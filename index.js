@@ -5,9 +5,10 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const rt = require('socket.io')(http, {
-  path: '/mix',
   serveClient: false
 });
+
+/*   path: '/mix', */
 
 const events = require('./events')(rt);
 

@@ -125,10 +125,11 @@
      * Connect to the instance of Socket.IO running on my computer.
      * Must specify the custom path, "/mix" or it won't work.
      */
-    const rt = io('http://vnx.local:3000', {
-      path: '/mix'
-    });
+    const rt = io('http://vnx.local:3000');
 
+    /* , {
+      path: '/mix'
+    } */
     /**
      * Initialize the local variable for the room/match name.
      */
@@ -162,7 +163,11 @@
          "password": mixPass
        };
 
+       console.log("joining mix");
+
        rt.emit("join mix", req, (res) => {
+         console.log("joining");
+         console.log(res);
          if (res.code === 200) {
            document.getElementById("mixName").innerText = `Current Mix: ${ currentMix }`;
          } else {

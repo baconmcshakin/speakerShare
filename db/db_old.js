@@ -1,11 +1,12 @@
 const _ = require('underscore');
 const redis = require('redis');
 const flat = require('flat');
+const Promise = require('bluebird');
 
 const client = redis.createClient();
 
-bluebird.promisifyAll(redis.RedisClient.prototype);
-bluebird.promisifyAll(redis.Multi.prototype);
+Promise.promisifyAll(redis.RedisClient.prototype);
+Promise.promisifyAll(redis.Multi.prototype);
 
 const cbHandle = (res, cb) => {
   if (typeof cb === "function") {
@@ -28,8 +29,12 @@ const set = (key, data, cb) => {
 const get = (key, cb) => {
   client.hgetallAsync(key)
   .then((res) => {
+    console.log("inside of db, res: " + res);
     console.log(res);
-    if (_.isObject(res)) return flat(res).unflatten;
+    console.log(typeof res);
+    let unflatRes = flat(res).unflatten;
+    console.log(unflatRes)
+    if (_.isObject(res)) return unflatRes;
     else return res;
   })
   .then((response) => {

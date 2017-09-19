@@ -1,9 +1,12 @@
 const _ = require('underscore');
 const Promise = require('bluebird');
 const redis = require('redis');
-const db = require('../db.js');
+const db = require('../db');
 
 module.exports = (rt, socket) => {
+
+  const mix = new db.MixModel();
+
   /**
    * doesMixExist checks our database to see if the mix object
    * exists.
@@ -12,7 +15,7 @@ module.exports = (rt, socket) => {
    */
   const doesMixExist = (name) => {
     return new Promise((resolve, reject) => {
-      db.get(`mix.${name}`, (response) => {
+      mix.get(`mix.${name}`, (response) => {
         return resolve(!_.isNull(response));
       });
     });
@@ -53,8 +56,14 @@ module.exports = (rt, socket) => {
    * @return {[type]}            [description]
    */
   const createMix = (data, callback) => {
+    if (typeof data === "string") {
+      data = JSON.parse(data);
+    }
+    console.log(data);
+    console.log(typeof data);
+    console.log(data.name);
     let mixName = data.name.toLowerCase();
-    let mixPass = data.password;
+    let mixPass = data.password
 
     Promise.all([
       doesMixExist(mixName),
@@ -66,15 +75,13 @@ module.exports = (rt, socket) => {
       if (_.isEqual(res, [false, true])) {
         db.set(`mix.${mixName}`, data, (success) => {
           console.log(success);
-          if (success === 1) {
-            console.log("Success, new mix created. " + mixName);
-            socket.join(mixName);
-            return true;
-          }
-        })
+          console.log("Success, new mix created. " + mixName);
+          socket.join(mixName);
+          return callback(true);
+        });
       } else {
         console.log("Failure, mix not created. " + mixName);
-        return false;
+        return callback(false);
       }
     });
   }
@@ -155,21 +162,44 @@ else {
    * @return {Boolean}           Is join successful?
    */
   const joinMix = (data, callback) => {
-    let newMix = data.newMix;
     let mixName = data.name.toLowerCase();
     let mixPass = data.password;
 
+    console.log("fuckin join mix: " + data);
+    console.log(data);
+    console.log(typeof data);
+    console.log(mixName);
+
+    const dbGetMix = (bool) => {
+      console.log("dbGetMix: " + bool);
+      return new Promise((resolve, reject) => {
+        if (bool === true) {
+          console.log(`mix.${mixName}`);
+          db.get(`mix.${mixName}`, (mixRes) => {
+            console.log("here's what we got: " + mixRes);
+            return resolve(mixRes);
+          });
+        } else {
+          return resolve(null);
+        }
+      });
+    }
+
     doesMixExist(mixName)
+    .then(dbGetMix)
     .then((res) => {
       console.log(res);
+      console.log(_.isObject(res));
+      console.log(mixName === res.name);
+      console.log(mixPass === res.password);
       if (_.isObject(res)
           && mixName === res.name
           && mixPass === res.password) {
         socket.join(mixName);
-        return true;
+        return callback(true);
       }
       else {
-        return false;
+        return callback(false);
       }
     });
   }
