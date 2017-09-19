@@ -4,8 +4,6 @@ module.exports = (rt) => {
     const Mixtape = require('./mixtape.js')(rt, socket);
     // const Social = require('./social.js')(rt, socket);
 
-    const db = require('../db.js');
-
     console.log(`Client ID ${ socket.id } Connected`);
 
     // socket.on middleware (body-parser)
@@ -23,9 +21,6 @@ module.exports = (rt) => {
 
     // socket.on('view popular tapes', Social.popularTapes);
 
-    socket.on('arbitrary', (data) => {
-      console.log(data);
-    });
   }
 
   return { handlers };

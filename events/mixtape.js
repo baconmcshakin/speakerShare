@@ -1,6 +1,5 @@
 const _ = require('underscore');
 const Promise = require('bluebird');
-const redis = require('redis');
 const db = require('../db');
 
 module.exports = (rt, socket) => {
