@@ -1,10 +1,24 @@
 const _ = require('underscore');
 const Promise = require('bluebird');
-const db = require('../db');
+//const db = require('../db');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+// const MixModel = require('../db/models/mixModel.js');
 
 module.exports = (rt, socket) => {
 
-  const mix = new db.MixModel();
+  var mixSchema = new Schema({
+    name:         { type: String, required: true },
+    password:     String,
+    description:  String,
+    admin:        String, // Schema.Types.ObjectId
+    created:      { type: Date, default: Date.now },
+    mixtape:      [],
+    users:        []
+  });
+
+  const Mix = mongoose.model('MixModel', mixSchema);
+  const mix = new Mix();
 
   /**
    * doesMixExist checks our database to see if the mix object
@@ -13,9 +27,13 @@ module.exports = (rt, socket) => {
    * @return {[type]}      [description]
    */
   const doesMixExist = (name) => {
+    console.log("doesMixExist: " + name);
     return new Promise((resolve, reject) => {
-      mix.get(`mix.${name}`, (response) => {
-        return resolve(!_.isNull(response));
+      console.log(mix);
+      mix.find({ "name": name })
+      .then((response) => {
+        console.log(response);
+        // return resolve(!_.isNull(response));
       });
     });
   }
@@ -62,7 +80,7 @@ module.exports = (rt, socket) => {
     console.log(typeof data);
     console.log(data.name);
     let mixName = data.name.toLowerCase();
-    let mixPass = data.password
+    let mixPass = data.pass;
 
     Promise.all([
       doesMixExist(mixName),
@@ -72,8 +90,14 @@ module.exports = (rt, socket) => {
       console.log(res);
       console.log(_.isEqual(res, [false, true]));
       if (_.isEqual(res, [false, true])) {
-        db.set(`mix.${mixName}`, data, (success) => {
-          console.log(success);
+        mix.set({
+          "name": mixName,
+          "pass": mixPass,
+          "description": data.description,
+        })
+        .save()
+        .then((res) => {
+          console.log(res);
           console.log("Success, new mix created. " + mixName);
           socket.join(mixName);
           return callback(true);

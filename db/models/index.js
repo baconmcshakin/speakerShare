@@ -1,3 +1,3 @@
-const MixModel = require('./mixModel.js');
+const MixModel = require('mixModel.js');
 
 module.exports = { MixModel };
