@@ -18,22 +18,26 @@
 		AA5586FE1F6F7E6500243166 /* SocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5586FD1F6F7E6500243166 /* SocketIOManager.swift */; };
 		AA5587001F6F846900243166 /* Mixtape.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5586FF1F6F846900243166 /* Mixtape.swift */; };
 		AA5587021F6F8E1600243166 /* JoinMixtapeAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5587011F6F8E1600243166 /* JoinMixtapeAuth.swift */; };
+		AA82F81D1F7248BA00535260 /* AddSongViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA82F81C1F7248BA00535260 /* AddSongViewController.swift */; };
+		AA82F81F1F7248CE00535260 /* UsersInMixtapeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA82F81E1F7248CE00535260 /* UsersInMixtapeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0D6FFDB9CEA65621A592646A /* Pods_SpeakerShare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpeakerShare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA021E631F68FEE900ECD773 /* CreateMixtape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateMixtape.swift; sourceTree = "<group>"; };
-		AA34B9BD1F70F588007F01AE /* MixViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MixViewController.swift; sourceTree = "<group>"; };
+		AA34B9BD1F70F588007F01AE /* MixViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MixViewController.swift; path = SpeakerShare/MixViewController.swift; sourceTree = "<group>"; };
 		AA4E43E31F68E06000B0C456 /* SpeakerShare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpeakerShare.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA4E43E61F68E06000B0C456 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		AA4E43E61F68E06000B0C456 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = SpeakerShare/AppDelegate.swift; sourceTree = "<group>"; };
 		AA4E43E81F68E06000B0C456 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AA4E43EB1F68E06000B0C456 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AA4E43ED1F68E06000B0C456 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA4E43F01F68E06000B0C456 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		AA4E43F21F68E06000B0C456 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AA5586FD1F6F7E6500243166 /* SocketIOManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
-		AA5586FF1F6F846900243166 /* Mixtape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mixtape.swift; sourceTree = "<group>"; };
+		AA4E43F21F68E06000B0C456 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = SpeakerShare/Info.plist; sourceTree = "<group>"; };
+		AA5586FD1F6F7E6500243166 /* SocketIOManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocketIOManager.swift; path = SpeakerShare/SocketIOManager.swift; sourceTree = "<group>"; };
+		AA5586FF1F6F846900243166 /* Mixtape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mixtape.swift; path = SpeakerShare/Mixtape.swift; sourceTree = "<group>"; };
 		AA5587011F6F8E1600243166 /* JoinMixtapeAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinMixtapeAuth.swift; sourceTree = "<group>"; };
+		AA82F81C1F7248BA00535260 /* AddSongViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddSongViewController.swift; path = SpeakerShare/AddSongViewController.swift; sourceTree = "<group>"; };
+		AA82F81E1F7248CE00535260 /* UsersInMixtapeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UsersInMixtapeViewController.swift; path = SpeakerShare/UsersInMixtapeViewController.swift; sourceTree = "<group>"; };
 		C184EB0DE95671DA41186F76 /* Pods-SpeakerShare.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpeakerShare.release.xcconfig"; path = "Pods/Target Support Files/Pods-SpeakerShare/Pods-SpeakerShare.release.xcconfig"; sourceTree = "<group>"; };
 		CAEA45AB972E98AF851A788A /* Pods-SpeakerShare.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpeakerShare.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpeakerShare/Pods-SpeakerShare.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -79,19 +83,65 @@
 		AA4E43E51F68E06000B0C456 /* SpeakerShare */ = {
 			isa = PBXGroup;
 			children = (
+				AA8069501F724CBD00623C76 /* Project Support Files */,
+				AA8069511F724D1C00623C76 /* Socket Management */,
+				AA8069521F724D5800623C76 /* Data Structures */,
+				AA8069531F724D9900623C76 /* Create and Join Mixes */,
+				AA80694F1F724C9B00623C76 /* MixtapeViewControllers */,
 				AA4E43EA1F68E06000B0C456 /* Main.storyboard */,
-				AA34B9BD1F70F588007F01AE /* MixViewController.swift */,
-				AA4E43E61F68E06000B0C456 /* AppDelegate.swift */,
-				AA4E43E81F68E06000B0C456 /* ViewController.swift */,
-				AA021E631F68FEE900ECD773 /* CreateMixtape.swift */,
-				AA5586FF1F6F846900243166 /* Mixtape.swift */,
-				AA5586FD1F6F7E6500243166 /* SocketIOManager.swift */,
-				AA5587011F6F8E1600243166 /* JoinMixtapeAuth.swift */,
 				AA4E43ED1F68E06000B0C456 /* Assets.xcassets */,
-				AA4E43EF1F68E06000B0C456 /* LaunchScreen.storyboard */,
-				AA4E43F21F68E06000B0C456 /* Info.plist */,
 			);
 			path = SpeakerShare;
+			sourceTree = "<group>";
+		};
+		AA80694F1F724C9B00623C76 /* MixtapeViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				AA34B9BD1F70F588007F01AE /* MixViewController.swift */,
+				AA82F81C1F7248BA00535260 /* AddSongViewController.swift */,
+				AA82F81E1F7248CE00535260 /* UsersInMixtapeViewController.swift */,
+			);
+			name = MixtapeViewControllers;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		AA8069501F724CBD00623C76 /* Project Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				AA4E43F21F68E06000B0C456 /* Info.plist */,
+				AA4E43E61F68E06000B0C456 /* AppDelegate.swift */,
+				AA4E43EF1F68E06000B0C456 /* LaunchScreen.storyboard */,
+			);
+			name = "Project Support Files";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		AA8069511F724D1C00623C76 /* Socket Management */ = {
+			isa = PBXGroup;
+			children = (
+				AA5586FD1F6F7E6500243166 /* SocketIOManager.swift */,
+			);
+			name = "Socket Management";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		AA8069521F724D5800623C76 /* Data Structures */ = {
+			isa = PBXGroup;
+			children = (
+				AA5586FF1F6F846900243166 /* Mixtape.swift */,
+			);
+			name = "Data Structures";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		AA8069531F724D9900623C76 /* Create and Join Mixes */ = {
+			isa = PBXGroup;
+			children = (
+				AA4E43E81F68E06000B0C456 /* ViewController.swift */,
+				AA021E631F68FEE900ECD773 /* CreateMixtape.swift */,
+				AA5587011F6F8E1600243166 /* JoinMixtapeAuth.swift */,
+			);
+			name = "Create and Join Mixes";
 			sourceTree = "<group>";
 		};
 		E00F72ECC241F2AF8B8D7B80 /* Pods */ = {
@@ -232,6 +282,8 @@
 				AA4E43E91F68E06000B0C456 /* ViewController.swift in Sources */,
 				AA4E43E71F68E06000B0C456 /* AppDelegate.swift in Sources */,
 				AA5587001F6F846900243166 /* Mixtape.swift in Sources */,
+				AA82F81F1F7248CE00535260 /* UsersInMixtapeViewController.swift in Sources */,
+				AA82F81D1F7248BA00535260 /* AddSongViewController.swift in Sources */,
 				AA5587021F6F8E1600243166 /* JoinMixtapeAuth.swift in Sources */,
 				AA021E641F68FEE900ECD773 /* CreateMixtape.swift in Sources */,
 			);
@@ -254,6 +306,7 @@
 				AA4E43F01F68E06000B0C456 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = SpeakerShare;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

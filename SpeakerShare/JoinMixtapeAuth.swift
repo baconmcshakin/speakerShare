@@ -35,7 +35,6 @@ class PinInput: UIControl, UIKeyInput, UITextInputTraits {
             password.append(digit)
 
             delegate.highlightPassButtons(index: password.characters.count - 1, pass: password)
-            print("happening now bro")
         }
         
     }
@@ -85,7 +84,6 @@ class JoinMixtapeAuth: UIViewController, typingScreenAnimations {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("here ", channelName)
         
         channelNameLabel.text = channelName
         self.pinKeyboard.becomeFirstResponder()
@@ -97,16 +95,13 @@ class JoinMixtapeAuth: UIViewController, typingScreenAnimations {
     }
     
     func highlightPassButtons(index: Int, pass: String) {
-        print("Wtf")
-        print(index)
         passcodeBubble[index].image = passcodeBubble[index].highlightedImage
         
         if index == 3 {
-            let mix = Mixtape(name: channelName, password: pass, description: "")
+            let mix = Mixtape(name: channelName, pass: pass, description: "")
             SocketIOManager.sharedInstance.joinMix(mix: mix)
             
             // add check for if success, segue
-            performSegue(withIdentifier: "segueToChannelScreen", sender: nil)
             
             
         }

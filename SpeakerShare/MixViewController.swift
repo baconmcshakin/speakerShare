@@ -14,12 +14,8 @@ class MixViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    @IBAction func leaveMixButton(_ sender: UIBarButtonItem) {
+    @IBAction func leaveMixButton(_ sender: Any) {
         
-        
-        //EMIT EVENT TO LEAVE CHANNEL
-        
-        performSegue(withIdentifier: "leaveMixtapeFromMix", sender: nil)
-        
+          performSegue(withIdentifier: "leaveMixtapeFromMix", sender: nil)
     }
 }

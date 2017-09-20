@@ -11,31 +11,18 @@ import SocketIO
 
 class SocketIOManager: NSObject {
     static let sharedInstance = SocketIOManager()
-
-
+    
+    
     override init() {
         super.init()
     }
     
     var socket: SocketIOClient = SocketIOClient(socketURL: URL(string: "http://vnx.local:3000")!)
     
-    /* var s : SocketIOClient = SocketIOClient(socketURL: URL(string: "http://vnx.local:3000"), config: ["nsp": "swift"]) */
-    
-    
     func establishConnection() {
+        
         print("attempting to connect")
-        
-        //socket.joinNamespace("/mix")
-        //print(socket.nsp)
-        
-        /*
-        socket.on("connect") {data, ack in
-            print("socket connected")
-        }*/
-
-    
-       socket.connect()
-
+        socket.connect()
     }
     
     
@@ -44,22 +31,42 @@ class SocketIOManager: NSObject {
     }
     
     func joinMix(mix: Mixtape) {
+        
         socket.emitWithAck("join mix", mix.toJSON()! as! SocketData).timingOut(after: 0, callback: { data in
-            print(data)
+            print("this happened ")
+            
+            let dataArray = data as NSArray
+            let dataString = dataArray[0] as! String
+            
+            let dataNewNow = dataString.data(using: String.Encoding.utf8, allowLossyConversion: false)!
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: dataNewNow, options: []) as! [String: AnyObject]
+                
+                let str = json["status"] as! Int
+               // let str2 = str[0] as! NSDictionary
+                
+                print(str)
+                
+            } catch let error as NSError {
+                print("Failed to load: \(error.localizedDescription)")
+            }
+
+            
         })
     }
     
     func createMix(mix: Mixtape) {
         
         socket.emitWithAck("create mix", mix.toJSON()! as! SocketData).timingOut(after: 0, callback: { data in
-            print(data)
-    })
-        
-        
-        // newMix: true/false
-        // name: String
-        // password
-        // description
+            
+            
+            /*
+            if (((data[0] as AnyObject).status as! Int) == 1) {
+                JoinMixtapeAuth().performSegue(withIdentifier: "segueToChannelScreen", sender: nil)
+            }*/
+
+        })
     }
     
     
@@ -100,5 +107,5 @@ class SocketIOManager: NSObject {
     
     
     
-
+    
 }

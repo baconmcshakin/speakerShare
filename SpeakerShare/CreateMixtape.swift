@@ -25,20 +25,20 @@ class CreateMixtape: UIViewController, UITextFieldDelegate{
         let description = descriptionTextField.text
         
         
-        let mix = Mixtape(name: mixName!, password: password!, description: description)
+        let mix = Mixtape(name: mixName!, pass: password!, description: description)
         
         print(mix.name)
-        print(mix.password!)
+        print(mix.pass!)
         print(mix.description!)
         
         SocketIOManager.sharedInstance.createMix(mix: mix)
         
+        
+        performSegue(withIdentifier: "createTapeToQueue", sender: nil)
+
     }
     
-    
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         

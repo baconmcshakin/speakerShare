@@ -10,18 +10,18 @@ import Foundation
 
 struct Mixtape {
     var name: String
-    var password: String?
+    var pass: String?
     var description: String?
     
 
-    init(name: String, password: String? = nil, description: String? = nil) {
+    init(name: String, pass: String? = nil, description: String? = nil) {
         self.name = name
-        self.password = password
+        self.pass = pass
         self.description = description
     }
     
     func toJSON() -> Any? {
-        let props = ["name": self.name, "password": self.password, "description": self.description]
+        let props = ["name": self.name, "pass": self.pass, "description": self.description]
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: props,
                                                                       options: .prettyPrinted)
