@@ -75,7 +75,7 @@
       <p id="mixName">Not connected to a mix.</p>
       <p id="userList">Users Connected: ...</p>
       <input type="text" id="setMixName" name="setMixName" placeholder="HelloWorld">
-      <input type="text" id="setMixPass" name="setMixPass" placeholder="password">
+      <input type="text" id="setMixPass" name="setMixPass" placeholder="pass">
       <button id="joinMix">Join Mix</button>
       <button id="createMix">Create Mix</button>
       <button id="viewMixUsers">View Current Mix Users</button>
@@ -160,7 +160,7 @@
        mixPass = document.getElementById("setMixPass").value;
        let req = {
          "name": currentMix,
-         "password": mixPass
+         "pass": mixPass
        };
 
        console.log("joining mix");
@@ -168,7 +168,7 @@
        rt.emit("join mix", req, (res) => {
          console.log("joining");
          console.log(res);
-         if (res.code === 200) {
+         if (res.status == true) {
            document.getElementById("mixName").innerText = `Current Mix: ${ currentMix }`;
          } else {
            document.getElementById("mixName").innerText = `Failed to join ${ currentMix }`;
@@ -185,7 +185,7 @@
        mixPass = document.getElementById("setMixPass").value;
        let req = {
          "name": currentMix,
-         "password": mixPass
+         "pass": mixPass
        };
 
        rt.emit("create mix", req, (res) => {
