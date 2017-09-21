@@ -80,7 +80,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6JH-E4-WdO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-698" y="139"/>
+            <point key="canvasLocation" x="-2159" y="-226"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -135,7 +135,7 @@
                                         <rect key="frame" x="0.0" y="28" width="343" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JPc-Wn-Ixq" id="VXB-MV-Fzw">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -442,7 +442,7 @@
         <image name="unfilledPassDot" width="27" height="27"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0TM-tc-cQj"/>
-        <segue reference="pok-4o-edh"/>
+        <segue reference="lwf-j6-vie"/>
+        <segue reference="0Fb-cW-KaB"/>
     </inferredMetricsTieBreakers>
 </document>

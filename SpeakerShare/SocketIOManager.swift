@@ -20,92 +20,47 @@ class SocketIOManager: NSObject {
     var socket: SocketIOClient = SocketIOClient(socketURL: URL(string: "http://vnx.local:3000")!)
     
     func establishConnection() {
-        
         print("attempting to connect")
         socket.connect()
     }
     
     
     func closeConnection() {
+        print("attempting to disconnect")
         socket.disconnect()
     }
     
-    func joinMix(mix: Mixtape) {
+    
+    func joinMix(mix: Mixtape, completionHandler: @escaping (_ mixModel: [String: AnyObject]?) -> Void) {
         
-        socket.emitWithAck("join mix", mix.toJSON()! as! SocketData).timingOut(after: 0, callback: { data in
-            print("this happened ")
+        
+        socket.emitWithAck("join mix", mix.toJSON()! as! SocketData).timingOut(after: 0, callback: {dataArray in
             
-            let dataArray = data as NSArray
-            let dataString = dataArray[0] as! String
-            
-            let dataNewNow = dataString.data(using: String.Encoding.utf8, allowLossyConversion: false)!
-            
-            do {
-                let json = try JSONSerialization.jsonObject(with: dataNewNow, options: []) as! [String: AnyObject]
+            if let data = dataArray[0] as? [String: AnyObject] {
+                completionHandler(data)
                 
-                let str = json["status"] as! Int
-               // let str2 = str[0] as! NSDictionary
-                
-                print(str)
-                
-            } catch let error as NSError {
-                print("Failed to load: \(error.localizedDescription)")
             }
-
-            
         })
-    }
-    
-    func createMix(mix: Mixtape) {
         
-        socket.emitWithAck("create mix", mix.toJSON()! as! SocketData).timingOut(after: 0, callback: { data in
-            
-            
-            /*
-            if (((data[0] as AnyObject).status as! Int) == 1) {
-                JoinMixtapeAuth().performSegue(withIdentifier: "segueToChannelScreen", sender: nil)
-            }*/
+    }
 
+    
+    func createMix(mix: Mixtape, completionHandler: @escaping (_ mixModel: [String: AnyObject]?) -> Void) {
+        
+        socket.emitWithAck("create mix", mix.toJSON()! as! SocketData).timingOut(after: 0, callback: { dataArray in
+            
+            if let data = dataArray[0] as? [String: AnyObject] {
+                completionHandler(data)
+                
+            }
         })
     }
     
     
-    /*
-     socket?.on("connect") {data, ack in
-     self.socket?.emit("arbitrary", "ethans")
-     
-     
-     socket?.emit("join mix", channelName!)
-     
-     //socket?.emitWithAck("view room", channelName!)
-     
-     socket?.emitWithAck("view mix users", channelName!).timingOut(after: 0, callback: { data in
-     print(data)
-     })
-     
-     
-     //let channelName = mixgroupName.text
-     
-     }*/
     
     
-    
-    
-    
-    
-    /*
-     print("button pressed")
-     
-     socket?.emit("join mix", channelName!)
-     
-     //socket?.emitWithAck("view room", channelName!)
-     
-     socket?.emitWithAck("view mix users", channelName!).timingOut(after: 0, callback: { data in
-     print(data)
-     })
-     */
-    
-    
-    
-    
+    fileprivate func listenForOtherMessages() {
+        
+    }
+
 }

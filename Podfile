@@ -7,4 +7,8 @@ target 'SpeakerShare' do
 
   # Pods for SpeakerShare
 pod 'Socket.IO-Client-Swift'
+pod ‘FBSDKCoreKit’
+pod ‘FBSDKLoginKit’
+pod ‘FBSDKShareKit’
+
 end

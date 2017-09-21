@@ -31,11 +31,18 @@ class CreateMixtape: UIViewController, UITextFieldDelegate{
         print(mix.pass!)
         print(mix.description!)
         
-        SocketIOManager.sharedInstance.createMix(mix: mix)
         
-        
-        performSegue(withIdentifier: "createTapeToQueue", sender: nil)
+        SocketIOManager.sharedInstance.createMix(mix: mix, completionHandler: { (res) -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
+                
+                if res != nil {
+                    if res!["status"]?.integerValue == 1 {
+                        self.performSegue(withIdentifier: "createTapeToQueue", sender: nil)
 
+                    }
+                }
+            })
+        })
     }
     
 

@@ -13,7 +13,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBOutlet weak var mixgroupLabel: UITextField!
     var socket : SocketIOClient?
-    
     var channelName: String = ""
     
     
@@ -24,9 +23,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if (!channelName.isEmpty) {
             performSegue(withIdentifier: "segueToJoin", sender: nil)
         }
-        
-        
-        //let channelName = mixgroupName.text
         
     }
     
@@ -41,9 +37,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
     
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,6 +55,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
     
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        return cell
+    }
+    
+    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+
     
     func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
@@ -71,25 +74,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.view.endEditing(true)
         return false
     }
-    
-    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        return cell
-    }
-    
-    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    
     
     func keyboardWillShow(notification: NSNotification) {
         print(notification)
@@ -112,6 +96,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 }
             }
         }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     

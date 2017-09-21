@@ -17,14 +17,14 @@ protocol typingScreenAnimations {
 }
 
 class PinInput: UIControl, UIKeyInput, UITextInputTraits {
-
+    
     var password: String = ""
     
     // let vc = SecondVC()
     // vc.delegate = selfvar delegate: typingScreenAnimations?
-
+    
     var delegate:typingScreenAnimations!
-
+    
     
     
     public var hasText: Bool = false
@@ -33,7 +33,7 @@ class PinInput: UIControl, UIKeyInput, UITextInputTraits {
         
         if (password.characters.count < 4) {
             password.append(digit)
-
+            
             delegate.highlightPassButtons(index: password.characters.count - 1, pass: password)
         }
         
@@ -45,7 +45,7 @@ class PinInput: UIControl, UIKeyInput, UITextInputTraits {
             password = password.substring(to: index)
             
             delegate.deleteHighlight(index: password.characters.count)
-
+            
             
         }
     }
@@ -81,7 +81,7 @@ class JoinMixtapeAuth: UIViewController, typingScreenAnimations {
     @IBOutlet weak var pinKeyboard: PinInput!
     
     var channelName: String = ""
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -99,15 +99,31 @@ class JoinMixtapeAuth: UIViewController, typingScreenAnimations {
         
         if index == 3 {
             let mix = Mixtape(name: channelName, pass: pass, description: "")
-            SocketIOManager.sharedInstance.joinMix(mix: mix)
-            
-            // add check for if success, segue
             
             
+            
+            SocketIOManager.sharedInstance.joinMix(mix: mix, completionHandler: { (res) -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
+                    
+                    if res != nil {
+                        if res!["status"]?.integerValue == 1 {
+                            self.performSegue(withIdentifier: "segueToChannelScreen", sender: nil)
+                            
+                        }
+                    }
+                })
+            })
+
         }
+    }
+    
+    func test() {
+        print("workng")
+        performSegue(withIdentifier: "segueToChannelScreen", sender: nil)
     }
     
     func deleteHighlight(index: Int) {
         passcodeBubble[index].image = UIImage(named: "unfilledPassDot")
     }
+    
 }
