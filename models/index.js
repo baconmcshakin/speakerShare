@@ -1,1 +1,2 @@
 require('./mixModel');
+require('./userModel');

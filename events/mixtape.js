@@ -58,9 +58,7 @@ module.exports = (rt, socket) => {
    */
   const createMix = (data, callback) => {
     let mix = new Mix();
-    if (typeof data === "string") {
-      data = JSON.parse(data);
-    }
+
     console.log(data);
     let mixName = data.name.toLowerCase();
     let mixPass = data.pass;
@@ -82,35 +80,19 @@ module.exports = (rt, socket) => {
           console.log(res);
           console.log("Success, new mix created. " + mixName);
           socket.join(mixName);
-          return callback(true);
+          return callback({
+            status: true,
+            mix: mixResponse(res)
+          });
         });
       } else {
         console.log("Failure, mix not created. " + mixName);
-        return callback(false);
+        return callback({
+          status: false
+        });
       }
     });
   }
-
-  /**
-   * On the 'Join Mix' event, the currently connected user is
-   * added to their requested mixtape.
-   *
-   * On Join:
-   *  {
-   *    name: 'MixName',
-   *    pass: 'pass'
-   *  }
-   *
-   * On Create:
-   *  {
-   *    newMix: true,
-   *    name: 'MixName',
-   *    pass: 'pass',
-   *    description: 'whatever',
-   *  }
-   */
-
-
 
   /**
    * [joinMix description]
@@ -148,6 +130,19 @@ module.exports = (rt, socket) => {
     });
   }
 
+  const leaveMix = (data, callback) => {
+    console.log("Leaving Mix " + data);
+    data = data.toLowerCase();
+    // remove user's socket id from mixUsers list on db.mix.(data)
+    socket.leave(data, (response) => {
+      console.log(response);
+      return callback({
+        "status": true,
+        "response": response
+      });
+    });
+  }
+
   /**
    * On the 'View data Users' event, the currently connected user
    * can check the users also participating in their mix.
@@ -172,5 +167,5 @@ module.exports = (rt, socket) => {
     // })
   }
 
-  return { createMix, joinMix, viewMixUsers };
+  return { createMix, joinMix, leaveMix, viewMixUsers };
 }

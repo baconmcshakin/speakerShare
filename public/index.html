@@ -66,6 +66,11 @@
 
       <p id="serverMsg">Connecting to server...</p>
       <button id="connectFB">Connect via Facebook</button>
+
+      <br /><br />
+      <p id="userObjectMsg">User Object...</p>
+      <input type="text" id="sendUserObject" name="sendUserObject">
+      <button id="sendUserObjectButton">send user</button>
     </div>
 
     <div id="mixSection">
@@ -146,69 +151,94 @@
      */
     rt.on('connect', (socket) => {
       serverMsg.innerText = `Connected. Your User ID is ${ rt.id }.`;
+
+      /**
+       * [onclick description]
+       * @type {[type]}
+       */
+      document.getElementById("sendUserObjectButton").onclick = () => {
+        console.log("Fuck");
+        let userObject = document.getElementById("sendUserObject").value;
+        console.log(userObject);
+        rt.emit("authenticate", userObject, (cb) => {
+          console.log("Auth emit running.");
+          console.log(cb);
+          document.getElementById("userObjectMsg").innerText = cb;
+          if (cb.status == true) {
+            console.log("Success! Authenticated!");
+          }
+        });
+      }
+
+      /**
+       * joinMix button (click event)
+       * finds mix name entered in input field,
+       * emits an event called "join mix" to the server with the text from the
+       * input field, and updating the interface to show that you have
+       * connected to the new mix.
+       */
+       document.getElementById("joinMix").onclick = () => {
+         currentMix = document.getElementById("setMixName").value || "HelloWorld";
+         mixPass = document.getElementById("setMixPass").value;
+         let req = {
+           "name": currentMix,
+           "pass": mixPass
+         };
+
+         console.log("joining mix");
+
+         rt.emit("join mix", req, (res) => {
+           console.log("joining");
+           console.log(res);
+           if (res.status == true) {
+             document.getElementById("mixName").innerText = `Current Mix: ${ currentMix }`;
+           } else {
+             document.getElementById("mixName").innerText = `Failed to join ${ currentMix }`;
+           }
+         });
+       }
+
+       /**
+        * createMix (click event)
+        * @type {[type]}
+        */
+       document.getElementById("createMix").onclick = () => {
+         currentMix = document.getElementById("setMixName").value || "HelloWorld";
+         mixPass = document.getElementById("setMixPass").value;
+         let req = {
+           "name": currentMix,
+           "pass": mixPass
+         };
+
+         rt.emit("create mix", req, (res) => {
+           console.log(res);
+           if (res === true) {
+             document.getElementById("mixName").innerText = `Current Mix: ${ currentMix }`;
+           } else {
+             document.getElementById("mixName").innerText = `Failed to join ${ currentMix }`;
+           }
+         });
+       }
+
+      /**
+       * viewMixUsers button (click event)
+       * on click, an event is emitted to the
+       * server called "view mix users" with the mixtape name. We expect the
+       * server to respond with an array of users who are connected to the mix.
+       */
+      document.getElementById("viewMixUsers").onclick = () => {
+        rt.emit("view mix users", currentMix, (res) => {
+          document.getElementById("userList").innerText = `Users Connected: ${ res }`;
+        });
+      }
+
+
+
+
+
+
+
     });
-
-    /**
-     * joinMix button (click event)
-     * finds mix name entered in input field,
-     * emits an event called "join mix" to the server with the text from the
-     * input field, and updating the interface to show that you have
-     * connected to the new mix.
-     */
-     document.getElementById("joinMix").onclick = () => {
-       currentMix = document.getElementById("setMixName").value || "HelloWorld";
-       mixPass = document.getElementById("setMixPass").value;
-       let req = {
-         "name": currentMix,
-         "pass": mixPass
-       };
-
-       console.log("joining mix");
-
-       rt.emit("join mix", req, (res) => {
-         console.log("joining");
-         console.log(res);
-         if (res.status == true) {
-           document.getElementById("mixName").innerText = `Current Mix: ${ currentMix }`;
-         } else {
-           document.getElementById("mixName").innerText = `Failed to join ${ currentMix }`;
-         }
-       });
-     }
-
-     /**
-      * createMix (click event)
-      * @type {[type]}
-      */
-     document.getElementById("createMix").onclick = () => {
-       currentMix = document.getElementById("setMixName").value || "HelloWorld";
-       mixPass = document.getElementById("setMixPass").value;
-       let req = {
-         "name": currentMix,
-         "pass": mixPass
-       };
-
-       rt.emit("create mix", req, (res) => {
-         console.log(res);
-         if (res === true) {
-           document.getElementById("mixName").innerText = `Current Mix: ${ currentMix }`;
-         } else {
-           document.getElementById("mixName").innerText = `Failed to join ${ currentMix }`;
-         }
-       });
-     }
-
-    /**
-     * viewMixUsers button (click event)
-     * on click, an event is emitted to the
-     * server called "view mix users" with the mixtape name. We expect the
-     * server to respond with an array of users who are connected to the mix.
-     */
-    document.getElementById("viewMixUsers").onclick = () => {
-      rt.emit("view mix users", currentMix, (res) => {
-        document.getElementById("userList").innerText = `Users Connected: ${ res }`;
-      });
-    }
 
   </script>
 </body>
