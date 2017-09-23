@@ -101,12 +101,15 @@ class JoinMixtapeAuth: UIViewController, typingScreenAnimations {
             let mix = Mixtape(name: channelName, pass: pass, description: "")
             
             
-            
             SocketIOManager.sharedInstance.joinMix(mix: mix, completionHandler: { (res) -> Void in
                 DispatchQueue.main.async(execute: { () -> Void in
                     
                     if res != nil {
                         if res!["status"]?.integerValue == 1 {
+                            
+                        CurrentMix.sharedInstance.myMix.append(mix)
+
+                            
                             self.performSegue(withIdentifier: "segueToChannelScreen", sender: nil)
                             
                         }

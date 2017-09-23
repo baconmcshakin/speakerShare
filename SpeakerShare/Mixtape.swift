@@ -35,5 +35,12 @@ struct Mixtape {
             return nil
         }
     }
+}
+
+class CurrentMix {
+    
+    // Now Global.sharedGlobal is your singleton, no need to use nested or other classes
+    static let sharedInstance = CurrentMix()
+    var myMix:[Mixtape] = []
     
 }

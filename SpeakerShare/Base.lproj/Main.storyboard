@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="qav-jb-JXH">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -9,6 +9,27 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Login Screen-->
+        <scene sceneID="Qml-GC-Ec8">
+            <objects>
+                <viewController id="qav-jb-JXH" customClass="LoginScreen" customModule="SpeakerShare" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="noU-Mu-OXH"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ryf-md-bXF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1MZ-G8-hfG">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="facebookLoginSegue" id="Zhf-h7-Qbu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uOO-5O-YFa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-801" y="-721"/>
+        </scene>
         <!--Join Mixtape Auth-->
         <scene sceneID="e3V-Wk-ZEQ">
             <objects>
@@ -135,7 +156,7 @@
                                         <rect key="frame" x="0.0" y="28" width="343" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JPc-Wn-Ixq" id="VXB-MV-Fzw">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -196,7 +217,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="137" y="139"/>
+            <point key="canvasLocation" x="378" y="-430"/>
         </scene>
         <!--Create Mixtape-->
         <scene sceneID="Lzb-Rb-aAD">
@@ -405,6 +426,15 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ITQ-EU-0lk">
+                                <rect key="frame" x="0.0" y="73" width="375" height="545"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="bUa-0c-o2M" id="Wbn-Ee-lE1"/>
+                                    <outlet property="delegate" destination="bUa-0c-o2M" id="2ka-JD-TuD"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -415,7 +445,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uVs-v1-WbN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="945" y="869"/>
+            <point key="canvasLocation" x="944.79999999999995" y="868.51574212893559"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="i6e-hs-bic">
@@ -442,7 +472,7 @@
         <image name="unfilledPassDot" width="27" height="27"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lwf-j6-vie"/>
-        <segue reference="0Fb-cW-KaB"/>
+        <segue reference="PEq-jV-Ad9"/>
+        <segue reference="AAe-3w-vgr"/>
     </inferredMetricsTieBreakers>
 </document>

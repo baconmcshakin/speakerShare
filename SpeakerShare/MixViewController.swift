@@ -16,6 +16,19 @@ class MixViewController: UIViewController {
     }
     @IBAction func leaveMixButton(_ sender: Any) {
         
-          performSegue(withIdentifier: "leaveMixtapeFromMix", sender: nil)
+        let mix = CurrentMix.sharedInstance.myMix[0]
+        
+        
+        SocketIOManager.sharedInstance.leaveMix(mix: mix, completionHandler: { (res) -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
+                
+                if res != nil {
+                    if res!["status"]?.integerValue == 1 {
+                        self.performSegue(withIdentifier: "leaveMixtapeFromMix", sender: nil)
+                        
+                    }
+                }
+            })
+        })
     }
 }

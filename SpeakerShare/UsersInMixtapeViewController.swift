@@ -9,7 +9,21 @@
 import Foundation
 import UIKit
 
-class UsersInMixtapeViewController: UIViewController {
+class UsersInMixtapeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        return UITableViewCell()
+        
+    }
+
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        
+        return 2
+        
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }

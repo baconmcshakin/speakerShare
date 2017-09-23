@@ -8,6 +8,7 @@
 
 import UIKit
 import SocketIO
+import FBSDKCoreKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate{
     
@@ -17,6 +18,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
     @IBAction func joinChannelButton(_ sender: UIButton) {
+        //FBSDKAccessToken.current().userID
         
         
         channelName = mixgroupLabel.text!
@@ -32,14 +34,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             let secondViewController = segue.destination as! JoinMixtapeAuth
             secondViewController.channelName = channelName
             
-            
         }
-        
     }
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print(CurrentUser.sharedInstance.member[0])
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
@@ -102,7 +104,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     
 }
 

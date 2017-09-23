@@ -27,6 +27,8 @@ class CreateMixtape: UIViewController, UITextFieldDelegate{
         
         let mix = Mixtape(name: mixName!, pass: password!, description: description)
         
+        
+        
         print(mix.name)
         print(mix.pass!)
         print(mix.description!)
@@ -37,6 +39,8 @@ class CreateMixtape: UIViewController, UITextFieldDelegate{
                 
                 if res != nil {
                     if res!["status"]?.integerValue == 1 {
+                    CurrentMix.sharedInstance.myMix.append(mix)
+
                         self.performSegue(withIdentifier: "createTapeToQueue", sender: nil)
 
                     }
@@ -99,11 +103,7 @@ class CreateMixtape: UIViewController, UITextFieldDelegate{
         }
     }
 
-    
-    
-    
-    
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
