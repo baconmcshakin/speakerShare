@@ -2,7 +2,7 @@ const _ = require('underscore');
 const Promise = require('bluebird');
 const mongoose = require('mongoose');
 
-const Mix = mongoose.models.MixModel;
+const Mix = mongoose.models.Mix;
 
 module.exports = (rt, socket) => {
   /**
@@ -82,6 +82,7 @@ module.exports = (rt, socket) => {
     console.log(data);
     let mixName = data.name.toLowerCase();
     let mixPass = data.pass;
+    let userId  = data.
 
     Promise.all([
       doesMixExist(mixName),
@@ -170,24 +171,6 @@ module.exports = (rt, socket) => {
    * can check the users also participating in their mix.
    */
 
-  /**
-   * [viewMixUsers description]
-   * @param  {[type]}   data     [description]
-   * @param  {Function} callback [description]
-   * @return {[type]}            [description]
-   */
-  const viewMixUsers = (data, callback) => {
-    let mixName = data;
-    console.log(`Checking client list in mixtape ${ mixName }`);
-    rt.of('/').in(mixName).clients((error, users) => {
-      if (error) throw error;
-      console.log(`Clients in mix ${ mixName }: ${ users }`);
-      return callback(users);
-    }); // promisify and chain with .then(handle)
-    // .then((users) => {
-    //  // lookup each user.
-    // })
-  }
 
-  return { createMix, joinMix, leaveMix, viewMixUsers };
+  return { createMix, joinMix, leaveMix };
 }

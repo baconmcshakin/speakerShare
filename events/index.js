@@ -12,6 +12,8 @@ module.exports = (rt) => {
 
     console.log(`Client ID ${ socket.id } Connected`);
 
+    // User.initializeUser(socket.id);
+
     // socket.on middleware (body-parser)
     // socket.on middleware (auth before adding songs, editing, ...)
 
@@ -20,7 +22,7 @@ module.exports = (rt) => {
 
     socket.on('create mix', Mixtape.createMix);
     socket.on('join mix', Mixtape.joinMix);
-    socket.on('view mix users', Mixtape.viewMixUsers);
+    // socket.on('view mix users', Mixtape.viewMixUsers);
     socket.on('leave mix', Mixtape.leaveMix);
 
     // socket.on('add song', Mixtape.addSong);

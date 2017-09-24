@@ -1,2 +1,3 @@
-require('./mixModel');
-require('./userModel');
+require('./mix');
+require('./user');
+require('./song');
