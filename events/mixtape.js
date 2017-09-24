@@ -46,8 +46,28 @@ module.exports = (rt, socket) => {
     return {
       "name": mix.name,
       "description": mix.description,
-      "created": mix.created,
+      "created": mix.created
     }
+  }
+
+    /**
+   * [updateUserList description]
+   * @param  {[type]}   mixName  name of the mix
+   * @return {[type]}            [description]
+   */
+  const updateUserList = (mixName) => {
+    return new Promise((resolve, reject) => {
+      console.log(`updating user list for ${ mixName } `)
+      Mix.findOne({ "name": mixName }).
+        populate('users').
+        exec(function (err, mix) {
+          if (err) {
+            console.log(`error updating user list for ${ mixName } `);
+          }
+          console.log(`mix: ${ mix }`);          
+          // rt.emit('update user list', mix.users);
+      });
+    });
   }
 
   /**
@@ -75,8 +95,8 @@ module.exports = (rt, socket) => {
           "name": mixName,
           "pass": mixPass,
           "description": data.description,
-          "admin": socket.id,
-          "users": [ socket.id ]
+          "admin": data.mongo_id,
+          "users": [ data.mongo_id ]
         })
         .save()
         .then((res) => {
@@ -106,7 +126,7 @@ module.exports = (rt, socket) => {
   const joinMix = (data, callback) => {
     let mixName = data.name.toLowerCase();
     let mixPass = data.pass;
-
+    
     console.log("fuckin join mix: " + data);
     console.log(data);
 
@@ -119,8 +139,7 @@ module.exports = (rt, socket) => {
       if (_.isObject(res)
           && mixName === res.name
           && mixPass === res.pass) {
-        socket.join(mixName);
-        userConnectUpdate(mixName)
+        socket.join(mixName).then(updateUserList(mixName));
         return callback({
           status: true,
           mix: mixResponse(res)

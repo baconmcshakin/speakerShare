@@ -6,6 +6,14 @@ const User = mongoose.models.User;
 
 module.exports = (rt, socket) => {
 
+  const initializeUser = (data, callback) => {
+    let initUser = new User({ "current_socket": socket.id });
+    initUser.save().then((initRes) => {
+      console.log(initRes);
+      socket.emit('set mongo id', initRes._id);
+    })
+  }
+
   const auth = (data, callback) => {
     let userId = data.id; // do something to ID
     User.find({ _id : userId })
@@ -55,11 +63,10 @@ module.exports = (rt, socket) => {
   const logout = (callback) => {
     User.update({ "current_socket" : socket.id }, { "current_socket": "" })
     .then((updateRes) => {
-      // leaveMix()
-      return callback({
-        status: true
+        return callback({
+          status: true
+        })
       })
-    })
   }
 
   return { auth, logout };
