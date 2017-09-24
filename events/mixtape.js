@@ -64,7 +64,7 @@ module.exports = (rt, socket) => {
           if (err) {
             console.log(`error updating user list for ${ mixName } `);
           }
-          console.log(`mix: ${ mix }`);          
+          console.log(`mix: ${ mix }`);
           // rt.emit('update user list', mix.users);
       });
     });
@@ -126,7 +126,7 @@ module.exports = (rt, socket) => {
   const joinMix = (data, callback) => {
     let mixName = data.name.toLowerCase();
     let mixPass = data.pass;
-    
+
     console.log("fuckin join mix: " + data);
     console.log(data);
 
