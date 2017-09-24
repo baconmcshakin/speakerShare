@@ -2,22 +2,17 @@ const _ = require('underscore');
 const Promise = require('bluebird');
 const mongoose = require('mongoose');
 
-const User = mongoose.models.UserModel;
+const User = mongoose.models.User;
 
 module.exports = (rt, socket) => {
 
   const auth = (data, callback) => {
-    console.log("auth running");
-    // data = Jason.parse(data);
     let userId = data.id; // do something to ID
-    console.log(userId);
-    User.find({ "fb_id" : userId })
+    User.find({ _id : userId })
     .then((response) => {
       if (!_.isEmpty(response)) {
         User.update(response._id, { "current_socket": socket.id },
         (err, updateRes) => {
-          console.log(err);
-          console.log(updateRes);
           return callback({
             status: true,
             user: {
@@ -28,8 +23,6 @@ module.exports = (rt, socket) => {
         });
       }
       else {
-        console.log("nooooooo");
-        console.log(data.token);
         // create a new user object
         let user = new User({
           current_socket: socket.id,
@@ -40,7 +33,6 @@ module.exports = (rt, socket) => {
         });
         user.save((err, saveRes) => {
           if (err) callback({ status: false });
-          console.log(saveRes);
           if (saveRes.ok == 1) {
             return callback({
               status: true,
@@ -63,7 +55,7 @@ module.exports = (rt, socket) => {
   const logout = (callback) => {
     User.update({ "current_socket" : socket.id }, { "current_socket": "" })
     .then((updateRes) => {
-      console.log("updateRes on logout: " + updateRes);
+      // leaveMix()
       return callback({
         status: true
       })
