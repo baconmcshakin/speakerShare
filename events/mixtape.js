@@ -57,6 +57,7 @@ module.exports = (rt, socket) => {
  */
   const updateUserList = (mixName, newUser) => {
     return new Promise((resolve, reject) => {
+<<<<<<< HEAD
       console.log(`updating user list for ${mixName} `)
 
       Mix.findOne({ "name": mixName })
@@ -87,6 +88,18 @@ module.exports = (rt, socket) => {
           console.log(err);
           return reject(err);
         });
+=======
+      console.log(`updating user list for ${ mixName } `)
+      Mix.findOne({ "name": mixName }).
+        populate('users').
+        exec(function (err, mix) {
+          if (err) {
+            console.log(`error updating user list for ${ mixName } `);
+          }
+          console.log(`mix: ${ mix }`);
+          // rt.emit('update user list', mix.users);
+      });
+>>>>>>> 3ee63efb227ea00e7a80b9ede5a1373f85b6c90a
     });
   }
 

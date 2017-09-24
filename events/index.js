@@ -8,6 +8,7 @@ module.exports = (rt) => {
   const handlers = (socket) => {
     const User = require('./user.js')(rt, socket);
     const Mixtape = require('./mixtape.js')(rt, socket);
+    const Play = require('./play.js')(rt, socket);
     // const Social = require('./social.js')(rt, socket);
 
     console.log(`Client ID ${ socket.id } Connected`);
@@ -25,9 +26,9 @@ module.exports = (rt) => {
     // socket.on('view mix users', Mixtape.viewMixUsers);
     socket.on('leave mix', Mixtape.leaveMix);
 
-    // socket.on('add song', Mixtape.addSong);
-    // socket.on('remove song', Mixtape.removeSong);
-    // socket.on('edit order', Mixtape.editOrder);
+    socket.on('add song', Play.addSong);
+    socket.on('remove song', Play.removeSong);
+    socket.on('edit song order', Play.editOrder);
 
     // socket.on('view popular tapes', Social.popularTapes);
 

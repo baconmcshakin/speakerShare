@@ -10,14 +10,15 @@ const providers = [
 ]
 
 let songSchema = new Schema({
-  title: { type: String, required: true },
+  title: {type: String, required: true},
   artist: String,
   album: String,
   description: String,
   length: Number,
   source: {
-    provider: { type: String, enum: providers, required: true },
-    source_link: { type: String, required: true }
+    id: {type:String, required: true},
+    provider: {type: String, enum: providers, required: true},
+    link: {type: String, required: true}
   }
 });
 
