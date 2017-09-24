@@ -21,7 +21,7 @@ module.exports = (rt, socket) => {
       return saveRes
     })
     .catch((err) => {
-      console.log("initializeSong Error: " err)
+      console.log(`initializeSong Error: ${err}`)
       return err
     })
   }

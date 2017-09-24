@@ -186,9 +186,9 @@
          };
 
          console.log("joining mix");
-         
+
          rt.emit("join mix", req, (res) => {
-           
+
            console.log("joining");
            console.log(res);
            if (res.status == true) {
@@ -233,12 +233,6 @@
           document.getElementById("userList").innerText = `Users Connected: ${ res }`;
         });
       }
-
-
-
-
-
-
 
     });
 

@@ -25,6 +25,7 @@ module.exports = (rt) => {
     socket.on('join mix', Mixtape.joinMix);
     // socket.on('view mix users', Mixtape.viewMixUsers);
     socket.on('leave mix', Mixtape.leaveMix);
+    //socket.on('destroy mix', Mixtape.destroyMix);
 
     socket.on('add song', Play.addSong);
     socket.on('remove song', Play.removeSong);

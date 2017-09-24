@@ -46,7 +46,8 @@ module.exports = (rt, socket) => {
     return {
       "name": mix.name,
       "description": mix.description,
-      "created": mix.created
+      "created": mix.created,
+      "users": mix.users
     }
   }
 
@@ -57,7 +58,6 @@ module.exports = (rt, socket) => {
  */
   const updateUserList = (mixName, newUser) => {
     return new Promise((resolve, reject) => {
-<<<<<<< HEAD
       console.log(`updating user list for ${mixName} `)
 
       Mix.findOne({ "name": mixName })
@@ -74,7 +74,7 @@ module.exports = (rt, socket) => {
         .then((mix) => {
           console.log('populating')
           console.log(mix);
-          
+
           mix.populate('users')
             .execPopulate()
             .then((populatedMix) => {
@@ -88,18 +88,6 @@ module.exports = (rt, socket) => {
           console.log(err);
           return reject(err);
         });
-=======
-      console.log(`updating user list for ${ mixName } `)
-      Mix.findOne({ "name": mixName }).
-        populate('users').
-        exec(function (err, mix) {
-          if (err) {
-            console.log(`error updating user list for ${ mixName } `);
-          }
-          console.log(`mix: ${ mix }`);
-          // rt.emit('update user list', mix.users);
-      });
->>>>>>> 3ee63efb227ea00e7a80b9ede5a1373f85b6c90a
     });
   }
 
@@ -164,6 +152,7 @@ module.exports = (rt, socket) => {
 
     Mix.findOne({ "name": mixName })
       .then((res) => {
+        let theMix = res;
         console.log(res);
         console.log(_.isObject(res));
         console.log(mixName === res.name);
@@ -171,13 +160,16 @@ module.exports = (rt, socket) => {
         if (_.isObject(res)
           && mixName === res.name
           && mixPass == res.pass) {
-          socket.join(mixName).then(updateUserList(mixName, data.mongo_id));
+          socket.join(mixName);
+          theMix = updateUserList(mixName, data.mongo_id);
           return callback({
             status: true,
-            mix: mixResponse(res)
+            mix: mixResponse(theMix)
           });
         }
         else {
+          console.log(`For some reason, we failed to join mix ${ theMix.name }`)
+          console.log(theMix);
           return callback({
             status: false
           });
@@ -191,11 +183,16 @@ module.exports = (rt, socket) => {
     // remove user's socket id from mixUsers list on db.mix.(data)
     socket.leave(data, (response) => {
       console.log(response);
+
       return callback({
         "status": true,
         "response": response
       });
     });
+  }
+
+  const destroyMix = (data, callback) => {
+    socket.leave();
   }
 
   /**
@@ -204,5 +201,5 @@ module.exports = (rt, socket) => {
    */
 
 
-  return { createMix, joinMix, leaveMix };
+  return { createMix, joinMix, leaveMix, destroyMix };
 }
