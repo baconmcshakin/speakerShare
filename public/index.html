@@ -130,7 +130,7 @@
      * Connect to the instance of Socket.IO running on my computer.
      * Must specify the custom path, "/mix" or it won't work.
      */
-    const rt = io('http://vnx.local:3000');
+    const rt = io('http://localhost:3000');
 
     /* , {
       path: '/mix'
@@ -186,8 +186,9 @@
          };
 
          console.log("joining mix");
-
+         
          rt.emit("join mix", req, (res) => {
+           
            console.log("joining");
            console.log(res);
            if (res.status == true) {
@@ -207,7 +208,8 @@
          mixPass = document.getElementById("setMixPass").value;
          let req = {
            "name": currentMix,
-           "pass": mixPass
+           "pass": mixPass,
+           "mongo_id": '59c70e99964ec3f974199594',
          };
 
          rt.emit("create mix", req, (res) => {

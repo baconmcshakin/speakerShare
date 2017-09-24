@@ -13,11 +13,11 @@ module.exports = (rt, socket) => {
    */
   const doesMixExist = (name) => {
     return new Promise((resolve, reject) => {
-      Mix.find({ "name" : name })
-      .then((response) => {
-        console.log(`Does ${name} exist? ` + !_.isEmpty(response));
-        return resolve(!_.isEmpty(response));
-      });
+      Mix.find({ "name": name })
+        .then((response) => {
+          console.log(`Does ${name} exist? ` + !_.isEmpty(response));
+          return resolve(!_.isEmpty(response));
+        });
     });
   }
 
@@ -50,23 +50,43 @@ module.exports = (rt, socket) => {
     }
   }
 
-    /**
-   * [updateUserList description]
-   * @param  {[type]}   mixName  name of the mix
-   * @return {[type]}            [description]
-   */
-  const updateUserList = (mixName) => {
+  /**
+ * [updateUserList description]
+ * @param  {[type]}   mixName  name of the mix
+ * @return {[type]}            [description]
+ */
+  const updateUserList = (mixName, newUser) => {
     return new Promise((resolve, reject) => {
-      console.log(`updating user list for ${ mixName } `)
-      Mix.findOne({ "name": mixName }).
-        populate('users').
-        exec(function (err, mix) {
-          if (err) {
-            console.log(`error updating user list for ${ mixName } `);
-          }
-          console.log(`mix: ${ mix }`);          
-          // rt.emit('update user list', mix.users);
-      });
+      console.log(`updating user list for ${mixName} `)
+
+      Mix.findOne({ "name": mixName })
+        .then((mix) => {
+          console.log('pushign users');
+          mix.users.push(newUser);
+          return mix;
+        })
+        .then((mix) => {
+          console.log('mix saved');
+          mix.save();
+          return mix;
+        })
+        .then((mix) => {
+          console.log('populating')
+          console.log(mix);
+          
+          mix.populate('users')
+            .execPopulate()
+            .then((populatedMix) => {
+              console.log(populatedMix);
+              rt.emit('update user list', populatedMix);
+              return populatedMix;
+            })
+        })
+        .catch((err) => {
+          console.log(`error in updating mix user list for ${ mixName }`);
+          console.log(err);
+          return reject(err);
+        });
     });
   }
 
@@ -82,39 +102,38 @@ module.exports = (rt, socket) => {
     console.log(data);
     let mixName = data.name.toLowerCase();
     let mixPass = data.pass;
-    let userId  = data.
 
     Promise.all([
       doesMixExist(mixName),
       isMixChannelEmpty(mixName)
     ])
-    .then((res) => {
-      console.log("Should we go ahead and create this mix? " + _.isEqual(res, [false, true]));
-      if (_.isEqual(res, [false, true])) {
-        mix.set({
-          "name": mixName,
-          "pass": mixPass,
-          "description": data.description,
-          "admin": data.mongo_id,
-          "users": [ data.mongo_id ]
-        })
-        .save()
-        .then((res) => {
-          console.log(res);
-          console.log("Success, new mix created. " + mixName);
-          socket.join(mixName);
+      .then((res) => {
+        console.log("Should we go ahead and create this mix? " + _.isEqual(res, [false, true]));
+        if (_.isEqual(res, [false, true])) {
+          mix.set({
+            "name": mixName,
+            "pass": mixPass,
+            "description": data.description,
+            "admin": data.mongo_id,
+            "users": [data.mongo_id]
+          })
+            .save()
+            .then((res) => {
+              console.log(res);
+              console.log(`Success, new mix '${mixName}' created.`);
+              socket.join(mixName);
+              return callback({
+                status: true,
+                mix: mixResponse(res)
+              });
+            });
+        } else {
+          console.log("Failure, mix not created. " + mixName);
           return callback({
-            status: true,
-            mix: mixResponse(res)
+            status: false
           });
-        });
-      } else {
-        console.log("Failure, mix not created. " + mixName);
-        return callback({
-          status: false
-        });
-      }
-    });
+        }
+      });
   }
 
   /**
@@ -126,31 +145,31 @@ module.exports = (rt, socket) => {
   const joinMix = (data, callback) => {
     let mixName = data.name.toLowerCase();
     let mixPass = data.pass;
-    
+
     console.log("fuckin join mix: " + data);
     console.log(data);
 
     Mix.findOne({ "name": mixName })
-    .then((res) => {
-      console.log(res);
-      console.log(_.isObject(res));
-      console.log(mixName === res.name);
-      console.log(mixPass === res.pass);
-      if (_.isObject(res)
+      .then((res) => {
+        console.log(res);
+        console.log(_.isObject(res));
+        console.log(mixName === res.name);
+        console.log(mixPass == res.pass);
+        if (_.isObject(res)
           && mixName === res.name
-          && mixPass === res.pass) {
-        socket.join(mixName).then(updateUserList(mixName));
-        return callback({
-          status: true,
-          mix: mixResponse(res)
-        });
-      }
-      else {
-        return callback({
-          status: false
-        });
-      }
-    });
+          && mixPass == res.pass) {
+          socket.join(mixName).then(updateUserList(mixName, data.mongo_id));
+          return callback({
+            status: true,
+            mix: mixResponse(res)
+          });
+        }
+        else {
+          return callback({
+            status: false
+          });
+        }
+      });
   }
 
   const leaveMix = (data, callback) => {

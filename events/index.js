@@ -12,7 +12,7 @@ module.exports = (rt) => {
 
     console.log(`Client ID ${ socket.id } Connected`);
 
-    // User.initializeUser(socket.id);
+    User.initializeUser(socket.id);
 
     // socket.on middleware (body-parser)
     // socket.on middleware (auth before adding songs, editing, ...)
