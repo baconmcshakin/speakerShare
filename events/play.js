@@ -6,7 +6,6 @@ const Mix = mongoose.models.Mix;
 const Song = mongoose.models.Song;
 
 module.exports = (rt, socket) => {
-
   /**
    * If a song doesn't exist in our Song collection in MongoDB,
    * create it.
@@ -15,16 +14,16 @@ module.exports = (rt, socket) => {
    */
   const initializeSong = (data) => {
     new Song(data)
-    .save()
-    .then((saveRes) => {
-      console.log(saveRes)
-      return saveRes
-    })
-    .catch((err) => {
-      console.log(`initializeSong Error: ${err}`)
-      return err
-    })
-  }
+      .save()
+      .then((saveRes) => {
+        console.log(saveRes);
+        return saveRes;
+      })
+      .catch((err) => {
+        console.log(`initializeSong Error: ${err}`);
+        return err;
+      });
+  };
 
   /**
    * Grab the song object from our database. Check to make sure it exists first,
@@ -32,19 +31,17 @@ module.exports = (rt, socket) => {
    * @param  {[type]} data [description]
    * @return {[type]}      [description]
    */
-  const grabSongFromDb = (data) => {
-    return new Promise((resolve, reject) => {
-      Song.findOne({"source.provider": data.provider, "source.songId": data.songId})
+  const grabSongFromDb = data => new Promise((resolve, reject) => {
+    Song.findOne({ 'source.provider': data.provider, 'source.songId': data.songId })
       .then((fetchedSong) => {
         console.log(fetchedSong);
-        return resolve(fetchedSong)
+        return resolve(fetchedSong);
       })
       .catch((err) => {
-        console.log(err)
-        return reject(err)
-      })
-    })
-  }
+        console.log(err);
+        return reject(err);
+      });
+  });
 
   /**
    * Add a song to a specific mixtape.
@@ -52,9 +49,9 @@ module.exports = (rt, socket) => {
    * @param {Function} callback [description]
    */
   const addSong = (data, callback) => {
-    //let songTitle = data.title
+    // let songTitle = data.title
 
-  }
+  };
 
   /**
    * Remove a song from a specific mixtape.
@@ -64,7 +61,7 @@ module.exports = (rt, socket) => {
    */
   const removeSong = (data, callback) => {
 
-  }
+  };
 
   /**
    * Edit the order in which list of songs will play,
@@ -75,7 +72,7 @@ module.exports = (rt, socket) => {
    */
   const editOrder = (data, callback) => {
 
-  }
+  };
 
-  return {addSong, removeSong, editOrder}
-}
+  return { addSong, removeSong, editOrder };
+};
